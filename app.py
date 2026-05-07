@@ -541,10 +541,13 @@ def render_analyze_new_prospect():
                     )
         else:
             # Mock mode: show the pre-computed sample
-            st.success(
-                "📋 **Sample assessment generated.** This is a pre-computed analysis based "
-                "on the example input shown above. In live mode, the same form would produce "
-                "a real-time analysis based on whatever input you provide."
+            st.warning(
+                "⚠️ **Mock mode — pre-computed sample assessment shown below.** "
+                "This is a demonstration of what Eleven Lens produces. The output is the "
+                "**same Maria & Petar example regardless of what you typed in the form**. "
+                "To analyze a different prospect with real input, paste an Anthropic API key "
+                "in the **🔑 Live mode** expander in the sidebar — that switches the form to "
+                "real-time Claude analysis on whatever input you provide."
             )
             render_assessment_full(FORM_SAMPLE_ASSESSMENT)
 
