@@ -11,14 +11,14 @@ import os
 from typing import Optional
 
 from .model import (
-    ProspectAssessment, TraitScore, PatternMatch, RedFlag,
+    ProspectAssessment, TraitScore, PatternMatch, RedFlag, VerificationQuestion,
     Verdict, Confidence, calculate_overall_confidence,
 )
 from .prompts import build_eleven_lens_system_prompt, build_prospect_analysis_prompt
 
 
 CLAUDE_MODEL = "claude-opus-4-7"
-MAX_TOKENS = 2000
+MAX_TOKENS = 3000
 
 
 def _parse_json_response(raw: str) -> dict:
@@ -103,6 +103,15 @@ def _build_assessment_from_json(
         for rf in data.get("red_flags", [])
     ]
     
+    verification_questions = [
+        VerificationQuestion(
+            target_trait=vq["target_trait"],
+            question=vq["question"],
+            what_to_listen_for=vq["what_to_listen_for"],
+        )
+        for vq in data.get("verification_questions", [])
+    ]
+    
     verdict = Verdict(data["verdict"])
     
     return ProspectAssessment(
@@ -116,4 +125,5 @@ def _build_assessment_from_json(
         strategic_recommendation=data["strategic_recommendation"],
         sources_analyzed=sources_analyzed,
         overall_confidence=calculate_overall_confidence(trait_scores),
+        verification_questions=verification_questions,
     )
