@@ -1,4 +1,4 @@
-
+"""
 Pre-computed Eleven Lens assessments for demo prospects.
 
 Used in mock mode (no API key) to show Rene what the tool produces.
@@ -138,7 +138,7 @@ STEFAN_RADOV_NFUSE = ProspectAssessment(
 NIKOLA_LAZAROV_EILLA = ProspectAssessment(
     prospect_name="Nikola Lazarov",
     company="Eilla AI",
-    is_team=False,  # Treated as solo CEO for this assessment
+    is_team=False,
     trait_scores=[
         TraitScore(
             trait_key="problem_obsession",
@@ -234,10 +234,8 @@ NIKOLA_LAZAROV_EILLA = ProspectAssessment(
 
 
 # =============================================================================
-# Demo Prospect 3: A weaker example — illustrates what failure looks like
+# Demo Prospect 3: A weaker example
 # =============================================================================
-# Including a deliberately weak fictional prospect lets Rene see the full
-# range of Eleven Lens output, not just the optimistic end.
 
 FICTIONAL_WEAK_PROSPECT = ProspectAssessment(
     prospect_name="[Demo: Weak Profile Example]",
@@ -306,7 +304,7 @@ FICTIONAL_WEAK_PROSPECT = ProspectAssessment(
             category="Behavioral",
             description=(
                 "Solo-hero narrative throughout pitch; team mentioned generically; "
-                "no public credit-giving to mentors or advisors.",
+                "no public credit-giving to mentors or advisors."
             ),
             severity="Watch",
         ),
@@ -339,9 +337,6 @@ FICTIONAL_WEAK_PROSPECT = ProspectAssessment(
 # =============================================================================
 # Demo Prospect 4: Maria Ivanova & Petar Georgiev (sample-form-input)
 # =============================================================================
-# This sample is referenced by the "Analyze a New Prospect" page when running
-# in mock mode. It demonstrates what Eleven Lens output looks like when
-# someone pastes the structured form input.
 
 MARIA_PETAR_SAMPLE = ProspectAssessment(
     prospect_name="Maria Ivanova & Petar Georgiev",
