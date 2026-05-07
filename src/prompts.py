@@ -1,4 +1,4 @@
-"""
+
 Eleven Lens — System Prompt and Analysis Prompts.
 
 The system prompt is taken from Ivan's specification with minor structural
