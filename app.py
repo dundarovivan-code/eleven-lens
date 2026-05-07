@@ -79,21 +79,40 @@ with st.sidebar:
     st.markdown("---")
     
     # Optional API key input for live mode
-    with st.expander("🔑 Live mode (optional)"):
-        st.caption(
-            "By default, this tool runs in mock mode with pre-computed sample analyses. "
-            "To run real-time Claude analysis on a new prospect, paste an Anthropic API key below. "
-            "The key is used only for your session and is not stored."
-        )
-        user_api_key = st.text_input(
-            "Anthropic API key",
-            type="password",
-            placeholder="sk-ant-...",
-            help="Get a key at console.anthropic.com. Each analysis costs ~$0.30.",
-        )
-        if user_api_key:
-            st.session_state["api_key"] = user_api_key
-            st.success("Live mode active for this session")
+    # Check Streamlit Secrets first (deployed by app owner), then fall back to user-supplied key
+    secrets_key = None
+    try:
+        secrets_key = st.secrets.get("ANTHROPIC_API_KEY")
+    except Exception:
+        secrets_key = None
+    
+    if secrets_key:
+        # App owner has provided a key via Streamlit Secrets — Live Mode is on for everyone
+        st.session_state["api_key"] = secrets_key
+        with st.expander("🟢 Live mode active"):
+            st.caption(
+                "Live mode is enabled by the app owner. Submitting the form on the "
+                "**Analyze a New Prospect** page will run real-time Claude analysis on "
+                "the input you provide. Each analysis costs approximately $0.30 against "
+                "the app owner's account."
+            )
+    else:
+        # No secret configured — let users supply their own key
+        with st.expander("🔑 Live mode (optional)"):
+            st.caption(
+                "By default, this tool runs in mock mode with pre-computed sample analyses. "
+                "To run real-time Claude analysis on a new prospect, paste an Anthropic API key below. "
+                "The key is used only for your session and is not stored."
+            )
+            user_api_key = st.text_input(
+                "Anthropic API key",
+                type="password",
+                placeholder="sk-ant-...",
+                help="Get a key at console.anthropic.com. Each analysis costs ~$0.30.",
+            )
+            if user_api_key:
+                st.session_state["api_key"] = user_api_key
+                st.success("Live mode active for this session")
     
     st.markdown("---")
     st.caption(
