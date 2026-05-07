@@ -346,8 +346,7 @@ def render_overview():
     st.info(
         "📌 **Note for Rene:** This is a v0.2 prototype calibrated against my reading of "
         "public material on 9 Eleven portfolio founders. The dimension weights and benchmark "
-        "calibration are designed to be tuned against your actual portfolio data — that's "
-        "the week-one work I'd do as an intern. I'd value 15 minutes of your feedback on "
+        "calibration are designed to be tuned against your actual portfolio data. I'd value 15 minutes of your feedback on "
         "whether the framework matches how you actually think about founder fit in IC."
     )
 
@@ -787,7 +786,7 @@ def render_calibration_roadmap():
 def render_memo():
     st.title("📝 Strategic Memo")
     st.markdown(
-        "**Why this exists, how it scales, and what I'd build in the first 30 days.**"
+        "**A founder evaluation framework calibrated for Eleven's platform-led investment thesis.**"
     )
     
     st.markdown("---")
@@ -799,17 +798,13 @@ def render_memo():
     evaluation traits and pattern-matched against 9 Eleven portfolio founders. Designed to 
     accelerate analyst-level DD work and provide structured, defensible inputs to IC.
     
-    Built specifically because Rene mentioned the team is looking for someone to build AI 
-    optimization processes that help analysts work better. Rather than describe what that 
-    looks like in abstract, this is the concrete v0.
-    
     ### Why this fits Eleven specifically
     
     Most VC DD frameworks evaluate founders on universal traits. Eleven's competitive moat 
     is its platform — the operational support that compounds value after the check is written. 
     The 8x follow-on multiple does not happen because every founder is great. It happens because 
-    Rene's platform team can compound value with founders who are coachable, strategically 
-    flexible, and self-aware enough to absorb help.
+    the platform team compounds value with founders who are coachable, strategically flexible, 
+    and self-aware enough to absorb help.
     
     Eleven Lens is built around that distinction. The five traits and the pattern matching are 
     designed to predict not just "will this founder succeed" but "will Eleven's platform model 
@@ -832,7 +827,7 @@ def render_memo():
     The unlock is consistency across analysts and across time. A junior analyst's founder 
     assessment is now anchored to the same rubric as a partner's.
     
-    ### Three-step rollout proposal
+    ### Three-step rollout
     
     **Step 1 — Pilot (weeks 1-2):**  
     Run the tool on the next 5 prospective deals in parallel with the existing process. 
@@ -850,49 +845,23 @@ def render_memo():
     
     ### What this prototype does NOT yet do
     
-    - **Source ingestion is manual.** Analyst pastes material in. Auto-scraping LinkedIn 
-      violates ToS and quality of input matters more than convenience.
-    - **No portfolio benchmarking yet.** The framework scores in isolation. With Eleven's 
-      historical data, it could compare new deals against successful and unsuccessful past 
-      portfolio founders.
+    - **Source ingestion is manual.** Material has to be pasted in. Auto-scraping LinkedIn 
+      violates ToS, and quality of input matters more than convenience.
+    - **No portfolio benchmarking against historical outcomes yet.** The framework scores in 
+      isolation. With Eleven's historical data, it could compare new deals against successful 
+      and unsuccessful past portfolio founders.
     - **English only.** Bulgarian, Greek, Polish founder materials would need translation 
       pre-processing.
     - **One founder skipped pending verification** — Mihail Stoychev attribution between 
       SMSBump and Nitropack needs to be confirmed before inclusion.
     
-    ### What I would build in the first 30 days as an intern
+    ### Calibration assumptions
     
-    **Week 1:** Run Eleven Lens on 10-15 founders from Eleven's recent investment cohort. 
-    Validate scoring against partner gut feel. Tune trait weights.
+    The current trait weights and benchmark scoring are based on public material — investment 
+    announcements, LinkedIn posts, press coverage. Calibration against Eleven's actual portfolio 
+    data would meaningfully improve precision. The framework is built to be tuned, not to be final.
     
-    **Week 2:** Build an AEO Audit module as a parallel framework, extending the AI Visibility 
-    Playbook into DD. Generate sample audits on 5 portfolio companies.
-    
-    **Week 3:** Integrate Eleven Lens into the IC memo template. Document the analyst workflow. 
-    Train on first new deal.
-    
-    **Week 4:** Build an AI-Native Unit Economics module. Apply to current pipeline. Pre-flag 
-    deals that clear the Tomov benchmark before partner review.
-    
-    End of month one: three modules in production, a quantitative founder benchmark, and a 
-    workflow that compounds on itself.
-    
-    ### Why I built this before being hired
-    
-    Two reasons. First, when Rene said the team needs someone who builds AI optimization 
-    processes, I wanted to show what that looks like in concrete form rather than describe 
-    it in abstract. Second, this is the kind of work I want to do — encoding how thoughtful 
-    investors actually evaluate founders into structured tooling that scales their judgment 
-    across deals.
-    
-    If we work together, more of this. If we don't, you have a working prototype to use or 
-    hand to whoever takes the role.
-    
-    Either way, I would value 15 minutes of your feedback on whether the framework matches 
-    how you actually think about founder fit in IC. That is the part I cannot calibrate from 
-    outside Eleven.
-    
-    — Ivan
+    — Ivan Dundarov
     """)
 
 
