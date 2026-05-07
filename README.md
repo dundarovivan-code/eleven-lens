@@ -111,5 +111,4 @@ Ivan Dundarov
 [your LinkedIn]
 
 The framework dimensions and weights are deliberate v0 choices. They are designed to 
-be tuned against Eleven's actual portfolio outcomes — that's the week-one work I'd do 
-as an intern.
+be tuned against Eleven's actual portfolio outcomes.
