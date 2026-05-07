@@ -1,4 +1,4 @@
-"""
+
 Pre-computed Eleven Lens assessments for demo prospects.
 
 Used in mock mode (no API key) to show Rene what the tool produces.
