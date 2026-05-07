@@ -344,7 +344,7 @@ def render_overview():
     """)
     
     st.info(
-        "📌 **Note for Rene:** This is a v0.2 prototype calibrated against my reading of "
+        "📌 **Note:** This is a v0.2 prototype calibrated against my reading of "
         "public material on 9 Eleven portfolio founders. The dimension weights and benchmark "
         "calibration are designed to be tuned against your actual portfolio data. I'd value 15 minutes of your feedback on "
         "whether the framework matches how you actually think about founder fit in IC."
