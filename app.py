@@ -70,6 +70,7 @@ with st.sidebar:
             "🧬 Benchmark Founders",
             "📊 Demo: Prospect Analysis",
             "📐 The Framework",
+            "📈 Calibration Roadmap",
             "📝 Strategic Memo",
         ],
         label_visibility="collapsed",
@@ -96,8 +97,8 @@ with st.sidebar:
     
     st.markdown("---")
     st.caption(
-        "**v0.2 prototype**  \n"
-        "Built for Rene Tomova at Eleven Ventures.  \n\n"
+        "**v0.3 prototype**  \n"
+        "A founder evaluation framework for Eleven Ventures.  \n\n"
         "Calibrated against 9 portfolio founders."
     )
     st.markdown("---")
@@ -157,11 +158,12 @@ def render_assessment_full(assessment: ProspectAssessment):
     st.markdown("### Strategic Recommendation")
     st.info(assessment.strategic_recommendation)
     
-    # Four tabs
-    tab1, tab2, tab3, tab4 = st.tabs([
+    # Five tabs (was four — added Verification Questions)
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📊 Trait Matrix",
         "🧬 Pattern Matching",
         "⚠️ Red Flags",
+        "🎯 Verification Questions",
         "📁 Sources",
     ])
     
@@ -238,6 +240,36 @@ def render_assessment_full(assessment: ProspectAssessment):
                     st.markdown("---")
     
     with tab4:
+        if not assessment.verification_questions:
+            st.info(
+                "No verification questions generated for this assessment. In live mode, "
+                "Eleven Lens generates 3-5 specific questions to ask the founder in the "
+                "next meeting to validate or invalidate the highest-uncertainty trait scores."
+            )
+        else:
+            st.markdown(
+                "**Specific questions to ask in the next meeting** — designed to validate or "
+                "invalidate the assessment's highest-uncertainty signals. Each question targets "
+                "a specific trait and includes guidance on what a strong vs weak answer looks like."
+            )
+            st.markdown("")
+            for i, vq in enumerate(assessment.verification_questions, 1):
+                with st.container():
+                    col1, col2 = st.columns([1, 5])
+                    with col1:
+                        st.markdown(
+                            f"<div style='background:#0c447c; color:white; padding:6px 10px; "
+                            f"border-radius:4px; text-align:center; font-weight:600; font-size:13px;'>"
+                            f"Q{i}<br><span style='font-size:10px; font-weight:400;'>"
+                            f"{vq.target_trait}</span></div>",
+                            unsafe_allow_html=True,
+                        )
+                    with col2:
+                        st.markdown(f"**{vq.question}**")
+                        st.caption(f"📌 *What to listen for:* {vq.what_to_listen_for}")
+                    st.markdown("---")
+    
+    with tab5:
         st.markdown("**Source material analyzed for this assessment.**")
         for source in assessment.sources_analyzed:
             st.markdown(f"- {source}")
@@ -295,7 +327,8 @@ def render_overview():
     st.info(
         "📌 **Note for Rene:** This is a v0.2 prototype calibrated against my reading of "
         "public material on 9 Eleven portfolio founders. The dimension weights and benchmark "
-        "calibration are designed to be tuned against your actual portfolio data. I'd value 15 minutes of your feedback on "
+        "calibration are designed to be tuned against your actual portfolio data — that's "
+        "the week-one work I'd do as an intern. I'd value 15 minutes of your feedback on "
         "whether the framework matches how you actually think about founder fit in IC."
     )
 
@@ -568,13 +601,171 @@ def render_framework():
 
 
 # =============================================================================
+# Page: Calibration Roadmap
+# =============================================================================
+
+def render_calibration_roadmap():
+    st.title("📈 Calibration Roadmap")
+    st.markdown(
+        "**How Eleven Lens compounds in value as Eleven uses it — from generic framework "
+        "to a tool calibrated against Eleven's specific judgment.**"
+    )
+    
+    st.markdown("---")
+    
+    st.markdown("""
+    ### The honest current state
+    
+    Right now, Eleven Lens is a **generic founder evaluation framework** with one specific tilt: 
+    it weights traits and pattern-matches archetypes based on a careful reading of public material 
+    on 9 Eleven portfolio founders. The framework is structurally sound — it asks the right questions, 
+    organizes the answers cleanly, and produces output an analyst can defend in IC.
+    
+    But it does not yet know what Eleven actually believes.
+    
+    Two founders can score 8/10 on Radical Honesty in this tool but represent very different 
+    investment risks for Eleven specifically. The current framework cannot tell you which 
+    matters more — that requires Eleven's data.
+    """)
+    
+    st.markdown("---")
+    
+    st.markdown("### How calibration would work")
+    
+    st.markdown("""
+    Every IC decision Eleven makes is a labeled training example for Eleven Lens. The decision 
+    itself (yes / no / incubation), the discussion that produced it, and the eventual outcome 
+    of that decision (funded → growing / funded → struggling / passed → competitor success) 
+    together form the data needed to teach the tool what Eleven actually values.
+    """)
+    
+    # Show the calibration stages as a visual progression
+    st.markdown("#### The calibration stages")
+    
+    stages = [
+        {
+            "stage": "Stage 1",
+            "label": "Today (v0.3)",
+            "deals": "0 calibrated",
+            "description": (
+                "Generic framework, calibrated against my reading of public material. "
+                "Useful for structuring analyst thinking. Not yet predictive of Eleven IC outcomes."
+            ),
+            "color": "#888888",
+        },
+        {
+            "stage": "Stage 2",
+            "label": "Anchored (v1)",
+            "deals": "10-15 deals",
+            "description": (
+                "Trait weights re-calibrated based on which scores most predicted partner gut feel "
+                "across recent IC discussions. The first version that reflects Eleven's actual "
+                "founder preferences vs the generic VC playbook."
+            ),
+            "color": "#b88600",
+        },
+        {
+            "stage": "Stage 3",
+            "label": "Predictive (v2)",
+            "deals": "30-50 deals",
+            "description": (
+                "Trait weights now back-tested against actual investment outcomes (12+ months in). "
+                "Tool can flag prospect assessments where the score profile resembles past Eleven "
+                "winners or past Eleven misses. Calibrated against the partner-specific risk biases."
+            ),
+            "color": "#0c447c",
+        },
+        {
+            "stage": "Stage 4",
+            "label": "Compound (v3)",
+            "deals": "100+ deals",
+            "description": (
+                "Tool becomes a competitive moat. New analysts ramp faster because they inherit "
+                "calibrated judgment. Partners get pre-flagged signals on prospects matching past "
+                "Eleven success patterns. Eleven's founder selection accuracy is institutionalized "
+                "in tooling rather than living only in partner heads."
+            ),
+            "color": "#1e7e34",
+        },
+    ]
+    
+    for stage in stages:
+        with st.container():
+            col1, col2, col3 = st.columns([1, 1, 4])
+            with col1:
+                st.markdown(
+                    f"<div style='background:{stage['color']}; color:white; padding:8px 12px; "
+                    f"border-radius:6px; text-align:center; font-weight:600;'>"
+                    f"{stage['stage']}<br><span style='font-size:11px; font-weight:400;'>"
+                    f"{stage['label']}</span></div>",
+                    unsafe_allow_html=True,
+                )
+            with col2:
+                st.markdown(
+                    f"<div style='padding-top:14px; text-align:center; "
+                    f"font-size:13px; color:#666;'>{stage['deals']}</div>",
+                    unsafe_allow_html=True,
+                )
+            with col3:
+                st.markdown(stage['description'])
+            st.markdown("---")
+    
+    st.markdown("### Why this matters strategically")
+    
+    st.markdown("""
+    Other VC funds with internal AI tooling face a generic-tool problem: their tools embed the 
+    industry's average founder evaluation logic, not their own. The tools never learn what makes 
+    a fund's specific picks different from another fund's.
+    
+    Calibrated Eleven Lens would be the opposite — a tool that gets *more* Eleven-specific over 
+    time, not less. The compounding advantage is real:
+    
+    - **For analysts:** Faster ramp, more consistent judgment, fewer low-quality memos.
+    - **For partners:** Prospect-quality signal that reflects Eleven's actual track record, not 
+      industry averages. Pre-flagged red flags that previous Eleven IC discussions surfaced.
+    - **For platform:** Tool can flag "this founder will need X kind of platform support based 
+      on profile" using historical patterns of which founders absorbed help and which did not.
+    - **For LPs:** The institutional process for founder selection becomes documentable, defensible, 
+      and improvable — beyond "the partners have great instincts."
+    """)
+    
+    st.markdown("---")
+    
+    st.markdown("### What stage 2 would actually require")
+    
+    st.markdown("""
+    Concretely, moving from current state to Stage 2 (the first calibrated version) would need:
+    
+    1. **Access to 10-15 recent IC discussions** — the actual partner debate notes around the 
+       deal, not just the final outcome. The disagreement is where the signal is.
+    2. **A scoring exercise** — running Eleven Lens on those same prospects with the partner's 
+       framing in mind, then comparing where the tool's scores diverged from the eventual decision.
+    3. **Trait re-weighting** — adjusting the relative importance of the 5 traits based on 
+       which scores most correlated with partner conviction.
+    4. **A new benchmark cohort** — replacing some of the public-data founder benchmarks with 
+       actual portfolio founders, scored from internal material.
+    
+    None of this requires more code. It requires Eleven's data, structured thinking about IC 
+    history, and a few weeks of focused calibration work. The tool itself is already built to 
+    support all of it.
+    """)
+    
+    st.info(
+        "📌 **The framework is built to be tuned, not to be final.** What's deployed today is "
+        "v0.3. The serious value comes from version 2, which requires Eleven's data. The "
+        "question this roadmap surfaces: is calibration with internal data something Eleven "
+        "would want to invest in?"
+    )
+
+
+# =============================================================================
 # Page: Strategic Memo
 # =============================================================================
 
 def render_memo():
     st.title("📝 Strategic Memo")
     st.markdown(
-        "**A founder evaluation framework calibrated for Eleven's platform-led investment thesis.**"
+        "**Why this exists, how it scales, and what I'd build in the first 30 days.**"
     )
     
     st.markdown("---")
@@ -586,13 +777,17 @@ def render_memo():
     evaluation traits and pattern-matched against 9 Eleven portfolio founders. Designed to 
     accelerate analyst-level DD work and provide structured, defensible inputs to IC.
     
+    Built specifically because Rene mentioned the team is looking for someone to build AI 
+    optimization processes that help analysts work better. Rather than describe what that 
+    looks like in abstract, this is the concrete v0.
+    
     ### Why this fits Eleven specifically
     
     Most VC DD frameworks evaluate founders on universal traits. Eleven's competitive moat 
     is its platform — the operational support that compounds value after the check is written. 
     The 8x follow-on multiple does not happen because every founder is great. It happens because 
-    the platform team compounds value with founders who are coachable, strategically flexible, 
-    and self-aware enough to absorb help.
+    Rene's platform team can compound value with founders who are coachable, strategically 
+    flexible, and self-aware enough to absorb help.
     
     Eleven Lens is built around that distinction. The five traits and the pattern matching are 
     designed to predict not just "will this founder succeed" but "will Eleven's platform model 
@@ -615,7 +810,7 @@ def render_memo():
     The unlock is consistency across analysts and across time. A junior analyst's founder 
     assessment is now anchored to the same rubric as a partner's.
     
-    ### Three-step rollout
+    ### Three-step rollout proposal
     
     **Step 1 — Pilot (weeks 1-2):**  
     Run the tool on the next 5 prospective deals in parallel with the existing process. 
@@ -633,23 +828,49 @@ def render_memo():
     
     ### What this prototype does NOT yet do
     
-    - **Source ingestion is manual.** Material has to be pasted in. Auto-scraping LinkedIn 
-      violates ToS, and quality of input matters more than convenience.
-    - **No portfolio benchmarking against historical outcomes yet.** The framework scores in 
-      isolation. With Eleven's historical data, it could compare new deals against successful 
-      and unsuccessful past portfolio founders.
+    - **Source ingestion is manual.** Analyst pastes material in. Auto-scraping LinkedIn 
+      violates ToS and quality of input matters more than convenience.
+    - **No portfolio benchmarking yet.** The framework scores in isolation. With Eleven's 
+      historical data, it could compare new deals against successful and unsuccessful past 
+      portfolio founders.
     - **English only.** Bulgarian, Greek, Polish founder materials would need translation 
       pre-processing.
     - **One founder skipped pending verification** — Mihail Stoychev attribution between 
       SMSBump and Nitropack needs to be confirmed before inclusion.
     
-    ### Calibration assumptions
+    ### What I would build in the first 30 days as an intern
     
-    The current trait weights and benchmark scoring are based on public material — investment 
-    announcements, LinkedIn posts, press coverage. Calibration against Eleven's actual portfolio 
-    data would meaningfully improve precision. The framework is built to be tuned, not to be final.
+    **Week 1:** Run Eleven Lens on 10-15 founders from Eleven's recent investment cohort. 
+    Validate scoring against partner gut feel. Tune trait weights.
     
-    — Ivan Dundarov
+    **Week 2:** Build an AEO Audit module as a parallel framework, extending the AI Visibility 
+    Playbook into DD. Generate sample audits on 5 portfolio companies.
+    
+    **Week 3:** Integrate Eleven Lens into the IC memo template. Document the analyst workflow. 
+    Train on first new deal.
+    
+    **Week 4:** Build an AI-Native Unit Economics module. Apply to current pipeline. Pre-flag 
+    deals that clear the Tomov benchmark before partner review.
+    
+    End of month one: three modules in production, a quantitative founder benchmark, and a 
+    workflow that compounds on itself.
+    
+    ### Why I built this before being hired
+    
+    Two reasons. First, when Rene said the team needs someone who builds AI optimization 
+    processes, I wanted to show what that looks like in concrete form rather than describe 
+    it in abstract. Second, this is the kind of work I want to do — encoding how thoughtful 
+    investors actually evaluate founders into structured tooling that scales their judgment 
+    across deals.
+    
+    If we work together, more of this. If we don't, you have a working prototype to use or 
+    hand to whoever takes the role.
+    
+    Either way, I would value 15 minutes of your feedback on whether the framework matches 
+    how you actually think about founder fit in IC. That is the part I cannot calibrate from 
+    outside Eleven.
+    
+    — Ivan
     """)
 
 
@@ -667,5 +888,7 @@ elif page == "📊 Demo: Prospect Analysis":
     render_prospect_demo()
 elif page == "📐 The Framework":
     render_framework()
+elif page == "📈 Calibration Roadmap":
+    render_calibration_roadmap()
 elif page == "📝 Strategic Memo":
     render_memo()
